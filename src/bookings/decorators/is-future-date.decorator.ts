@@ -10,7 +10,11 @@ export function IsFutureDate(validationOptions?: ValidationOptions) {
       validator: {
         validate(value: any) {
           if (!(value instanceof Date)) return false;
-          return value.getTime() > Date.now();
+          const now = new Date();
+          now.setHours(0, 0, 0, 0);
+          const inputDate = new Date(value);
+          inputDate.setHours(0, 0, 0, 0);
+          return inputDate >= now;
         },
         defaultMessage(args: ValidationArguments) {
           return `${args.property} must be a future date`;
